@@ -111,11 +111,11 @@ Inventory Turnover = Total Sales Quantity / Average Inventory
 
 ## Key Business Insights Summary
 
-✔ Demand is seasonal and fluctuates significantly
-✔ Overstocking risk is present due to low inventory turnover
-✔ High-value products require priority stock management
-✔ Supplier lead time directly impacts reorder planning
-✔ Data-driven reorder strategy reduces stockout and financial loss
+* Demand is seasonal and fluctuates significantly
+* Overstocking risk is present due to low inventory turnover
+* High-value products require priority stock management
+* Supplier lead time directly impacts reorder planning
+* Data-driven reorder strategy reduces stockout and financial loss
 
 ## ⚙ Tools & Technologies Used
 
