@@ -1,160 +1,106 @@
-# Slooze Data Science Take Home Challenge
-## Data Science Take-Home Challenge — Inventory Optimization & Demand Forecasting
+# 📦 Slooze — Inventory Optimization & Demand Forecasting
 
-## 📌 Project Overview
+> End-to-end data science analysis for a retail wine & spirits company — turning raw transactional data into actionable inventory intelligence.
 
-This project performs end-to-end data analysis for a retail wine & spirits company to optimize inventory management, analyze sales and procurement performance, and reduce operational inefficiencies. Using real business datasets, the project applies time-series forecasting, inventory classification, supply chain analysis, and stock optimization techniques to generate actionable business insights.
+---
 
-The goal is to simulate real-world decision making at Slooze by transforming raw transactional data into meaningful operational intelligence.
+## 🧠 What This Project Does
 
-## 🎯 Business Objectives Addressed
+This project analyzes over **1 million+ sales and procurement records** to help a retail business answer three critical questions:
 
-* Inventory Optimization — Determine ideal inventory levels and reorder strategy
-* Sales & Purchase Insights — Identify demand trends and high-value products
-* Process Improvement — Optimize procurement planning and reduce financial loss
+- **When** should we reorder stock — and how much?
+- **Which** products deserve priority inventory investment?
+- **Why** is capital getting locked in unsold inventory?
 
-## 📁 Datasets Used
+Built as a take-home data science challenge for **Slooze**, this analysis covers the full pipeline — from raw CSV ingestion to business recommendations.
 
-The following datasets were used for core analysis:
+---
 
-SalesFINAL12312016.csv
-→ Customer sales transactions and revenue data
+## 📊 Key Results
 
-PurchasesFINAL12312016.csv
-→ Procurement and supplier delivery data
+| Analysis | Result | Business Impact |
+|---|---|---|
+| Demand Forecasting (7-day MA) | Feb demand dropped after Jan peak | Avoid over-ordering in low seasons |
+| ABC Classification | 36K high-value "A" products identified | Focus stock investment on what sells |
+| Avg Supplier Lead Time | **7.6 days** | Plan orders at least 8 days in advance |
+| Reorder Point | **~311,328 units** | Trigger restocking before stockouts hit |
+| Inventory Turnover Ratio | **0.53** (slow movement) | Reduce C-category overstock, free up capital |
 
-BegInvFINAL12312016.csv & EndInvFINAL12312016.csv
-→ Inventory stock levels at the beginning and end of the period
+---
 
-(Other datasets were provided but core optimization tasks were achieved using these primary sources.)
+## 🔍 Analysis Breakdown
 
-## 🔍 Analysis Performed
+### 1. Demand Forecasting
+Aggregated daily sales and applied a **7-day moving average** to smooth noise and identify trends. Found a clear seasonal dip in February — useful for purchase planning.
 
-### 1. Demand Forecasting (Time Series Analysis)
-Sales data was aggregated into daily demand patterns and analyzed using a 7-day moving average model.
+### 2. ABC Inventory Classification
+Classified ~170K products by revenue contribution:
+- **A (36,801 products)** → High value, priority stocking
+- **B (48,205 products)** → Medium importance
+- **C (85,125 products)** → Low value, reduce excess stock
 
-#### Key Findings:
-* January showed strong demand with multiple high-volume sales peaks
-* February experienced a noticeable drop in sales volume
-* Short-term forecasting highlighted a downward demand trend
+### 3. Lead Time Analysis
+Calculated `Lead Time = Receiving Date − Purchase Order Date` across all suppliers.
+Average: **7.6 days** — giving procurement teams a concrete planning window.
 
-#### Business Impact:
-* Helps align purchase planning with real demand
-* Prevents over-ordering during low demand periods
-* Supports data-driven stock planning
-
-  ### 2. ABC Inventory Classification
-
-  Products were classified based on revenue contribution:
+### 4. Reorder Point Calculation
 ```
-| Category | Product Count | Business Meaning                |
-| -------- | ------------- | ------------------------------- |
-| A        | 36,801        | High-value, priority products   |
-| B        | 48,205        | Medium importance products      |
-| C        | 85,125        | Low-value, slow-moving products |
+Reorder Point = Avg Daily Demand × Avg Lead Time
+             = 40,852 units/day × 7.6 days
+             ≈ 311,328 units
 ```
-#### Key Insight:
-A small percentage of products generate the majority of revenue, while a large number of products contribute very little.
+When inventory hits this threshold, a new order must be placed to prevent stockouts.
 
-#### Business Impact:
-* Focus inventory investment on A-category products
-* Reduce excess stock of C-category products
-* Optimize warehouse space and working capital
-
-### 3. Lead Time Analysis (Procurement Efficiency)
-
-Supplier delivery performance was analyzed using:
+### 5. Inventory Turnover
 ```
-Lead Time = Receiving Date − Purchase Order Date
+Turnover Ratio = Total Sales Qty / Avg Inventory = 0.53
 ```
-#### Result: Average Lead Time ≈ 7.6 days
+A ratio below 1 indicates overstocking — capital tied up in products that aren't moving fast enough.
 
-#### Business Impact:
-* Helps procurement teams plan orders in advance
-* Reduces stockout risk
-* Improves supplier performance evaluation
+---
 
-### 4. Reorder Point Calculation (Stock Replenishment Strategy)
+## 🗂 Datasets Used
 
-Reorder point was calculated using:
-```
-Reorder Point = Average Daily Demand × Average Lead Time
-```
-#### Results:
-* Average Daily Demand ≈ 40,852 units
-* Reorder Point ≈ 311,328 units
+| File | Description |
+|---|---|
+| `SalesFINAL12312016.csv` | Customer sales transactions & revenue |
+| `PurchasesFINAL12312016.csv` | Procurement & supplier delivery data |
+| `BegInvFINAL12312016.csv` | Inventory levels at period start |
+| `EndInvFINAL12312016.csv` | Inventory levels at period end |
 
-#### Business Meaning:
-When inventory reaches approximately 3.1 lakh units, a new purchase order should be placed to ensure continuous stock availability.
-This prevents:
-* Stock shortages
-* Lost sales revenue
-* Customer dissatisfaction
+> Datasets are not included in this repo. Place CSV files in the root directory before running.
 
-### 5. Inventory Turnover Analysis
+---
 
-Inventory movement efficiency was measured using:
-```
-Inventory Turnover = Total Sales Quantity / Average Inventory
-```
-#### Result: Inventory Turnover Ratio ≈ 0.53
+## 🛠 Tech Stack
 
-#### Interpretation:
-* Inventory movement is slow
-* Overstocking risk exists
-* Capital is locked in unsold stock
+`Python` · `Pandas` · `NumPy` · `Matplotlib` · `Jupyter Notebook`
 
-#### Business Recommendation:
-* Reduce slow-moving products
-* Improve stock rotation
-* Align purchases with demand forecasts
+---
 
-## Key Business Insights Summary
+## 🚀 Run Locally
 
-* Demand is seasonal and fluctuates significantly
-* Overstocking risk is present due to low inventory turnover
-* High-value products require priority stock management
-* Supplier lead time directly impacts reorder planning
-* Data-driven reorder strategy reduces stockout and financial loss
-
-## ⚙ Tools & Technologies Used
-
-* Python
-* Pandas
-* NumPy
-* Matplotlib
-* Jupyter Notebook
-
-## How To Run This Project Locally
-
-#### Step 1: Install Requirements
-Install Anaconda (recommended) or Python 3.8+
-
-#### Step 2: Clone Repository
-```
+```bash
+# 1. Clone the repo
 git clone https://github.com/Megha-S-K/Slooze.git
+cd Slooze
+
+# 2. Install dependencies
+pip install pandas numpy matplotlib jupyter
+
+# 3. Add dataset CSVs to the root folder
+
+# 4. Launch notebook
+jupyter notebook inventory_analysis.ipynb
 ```
 
-#### Step 3: Place Dataset Files
-Copy all CSV dataset files into the project directory.
+Run all cells top to bottom to reproduce the full analysis.
 
-#### Step 4: Open Notebook
-Launch Jupyter Notebook and open:
-```
-inventory_analysis.ipynb
-```
+---
 
-#### Step 5: Run All Cells
-Run all cells from top to bottom to reproduce analysis and visualizations.
+## 💡 Key Takeaways
 
-## 📌 Project Highlights
-
-* Handled over 1 million+ sales records
-* Built complete analytics pipeline from raw data to business insights
-* Applied real-world inventory management techniques
-* Generated actionable operational recommendations
-
-## 🏁 Conclusion
-
-This project demonstrates how data science can improve retail inventory efficiency by forecasting demand, prioritizing high-value products, optimizing reorder strategies, and identifying procurement bottlenecks. The analysis provides a scalable framework for intelligent inventory decision-making in real production environments.
-* 
+- Demand is **seasonal** — procurement must adapt, not follow fixed schedules
+- A small fraction of products drives most revenue — **prioritize them**
+- Low inventory turnover = **capital locked in dead stock** — needs active management
+- A data-driven reorder point prevents both **stockouts and overstocking**
